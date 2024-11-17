@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Exchange</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav>
+         <h1>Currency Exchange</h1>
+         <ul>
+           <li><a href="/">Home</a></li>
+         </ul>
+       </nav>
+    <div class="container">
+        <h2>Exchange Rates</h2>
+        <form id="currencyForm">
+            <label for="baseCurrency">Select Base Currency:</label>
+            <select id="baseCurrency" name="baseCurrency" onchange="updateGraph()">
+                <% for (let currency in rates) { %>
+                    <option value="<%= currency %>" <%= currency === 'USD' ? 'selected' : '' %>>
+                        <%= currency %>
+                    </option>
+                <% } %>
+            </select>
+        </form>
+
+        <canvas id="exchangeChart" width="800" height="400"></canvas>
+    </div>
+
+    <script>
+        const initialRates = <%- JSON.stringify(rates) %>;
+
+        function renderChart(labels, data, baseCurrency) {
+            const ctx = document.getElementById("exchangeChart").getContext("2d");
+
+            if (window.myChart) {
+                window.myChart.destroy();
+            }
+
+            window.myChart = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `Exchange Rates (Base: ${baseCurrency})`,
+                        data: data,
+                        backgroundColor: "rgba(54, 162, 235, 0.6)",
+                        borderColor: "rgba(54, 162, 235, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateGraph() {
+            const baseCurrency = document.getElementById("baseCurrency").value;
+
+
+            fetch(`/currency?base=${baseCurrency}`)
+                .then(response => response.json())
+                .then(data => {
+                    const labels = Object.keys(data).slice(0, 10);
+                    const values = Object.values(data).slice(0, 10);
+
+                    renderChart(labels, values, baseCurrency);
+                })
+                .catch(error => {
+                    console.error("Error fetching currency data:", error);
+                    alert("Failed to fetch currency data.");
+                });
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const labels = Object.keys(initialRates).slice(0, 10);
+            const values = Object.values(initialRates).slice(0, 10);
+
+            renderChart(labels, values, "USD");
+        });
+    </script>
+    <footer class="footer">
+        <div class="container">
+          <p>Baimuratova Kamila | BDA-2306</p>
+        </div>
+      </footer>
+</body>
+</html>

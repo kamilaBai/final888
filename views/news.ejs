@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Latest News</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <nav>
+    <h1>Latest News</h1>
+    <ul>
+      <li><a href="/">Home</a></li>
+    </ul>
+  </nav>
+
+  <div class="news-widget">
+    <h2>Top Headlines</h2>
+    <div class="news-container">
+      <% articles.forEach(article => { %>
+        <div class="card">
+          <% if (article.urlToImage) { %>
+            <img src="<%= article.urlToImage %>" alt="News Image" class="news-image">
+          <% } %>
+          <div class="card-content">
+            <h3 class="card-title"><%= article.title %></h3>
+            <p class="card-description"><%= article.description || "No description available." %></p>
+            <a href="<%= article.url %>" target="_blank" class="card-link">Read More</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+<footer class="footer">
+    <div class="container">
+      <p>Baimuratova Kamila | BDA-2306</p>
+    </div>
+  </footer>
+</body>
+</html>
