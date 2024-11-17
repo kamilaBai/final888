@@ -1,12 +1,11 @@
 const express = require("express");
-const fetch = require("node-fetch");
 const router = express.Router();
 
-const apiUrl = "https://v6.exchangerate-api.com/v6/bae85e2e9027df8659042f28/latest/USD";
+const apiUrl = "https://open.er-api.com/v6/latest/USD"; // Replace with your API
 
-// Route to fetch and render currency data
 router.get("/", async (req, res) => {
     try {
+        const fetch = (await import("node-fetch")).default; // Use dynamic import for node-fetch
         const response = await fetch(apiUrl);
         const data = await response.json();
 
@@ -22,5 +21,3 @@ router.get("/", async (req, res) => {
 });
 
 module.exports = router;
-
-

@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "This project is my submission for a portfolio management system built using Node.js, Express, and MongoDB. It includes a Game of Thrones-themed interface, news widgets, and a currency exchange graph for visualization. The goal of this project was to demonstrate my skills in backend and frontend development while integrating APIs.",
   "dependencies": {
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
